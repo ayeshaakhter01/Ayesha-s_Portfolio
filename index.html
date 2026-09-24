@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal portfolio of Bibi Ayesha Akhter, Web Developer and Researcher." />
+  <title>Bibi Ayesha Akhter | Portfolio</title>
+
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- tailwind css CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            display: ["Playfair Display", "serif"],
+          },
+          colors: {
+            ink: "#0f172a",
+            moss: "#475569",
+            sage: "#14b8a6",
+            mist: "#e2e8f0",
+            coral: "#0f766e",
+            cream: "#f8fafc",
+          },
+          boxShadow: {
+            soft: "0 18px 50px rgba(15, 23, 42, 0.12)",
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- small in-page styles for animation states and patterned hero background. -->
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .active-link {
+      color: #0f766e !important;
+    }
+
+    .hero-pattern {
+      background-image:
+        radial-gradient(circle at 12% 20%, rgba(20, 184, 166, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(15, 118, 110, 0.15), transparent 26%),
+        linear-gradient(135deg, rgba(248, 250, 252, 0.97), rgba(226, 232, 240, 0.92));
+    }
+
+    .dark .hero-pattern {
+      background-image:
+        radial-gradient(circle at 12% 20%, rgba(20, 184, 166, 0.20), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(148, 163, 184, 0.14), transparent 26%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* ---------- Scroll reveal ---------- */
+    body .reveal {
+      opacity: 0;
+      translate: 0 36px;
+      transition:
+        opacity 0.9s cubic-bezier(.22,1,.36,1) var(--d, 0ms),
+        translate 0.9s cubic-bezier(.22,1,.36,1) var(--d, 0ms),
+        scale 0.9s cubic-bezier(.22,1,.36,1) var(--d, 0ms),
+        transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+      will-change: opacity, translate;
+    }
+    body .reveal-left  { translate: -50px 0; }
+    body .reveal-right { translate: 50px 0; }
+    body .reveal-zoom  { translate: 0 24px; scale: 0.92; }
+    body .reveal.visible { opacity: 1; translate: 0 0; scale: 1; }
+
+    article.reveal:hover {
+      border-color: rgba(15, 118, 110, 0.35);
+      box-shadow: 0 22px 55px rgba(15, 23, 42, 0.12);
+      transform: translateY(-6px);
+    }
+    .dark article.reveal:hover {
+      border-color: rgba(20, 184, 166, 0.55);
+      background-color: rgba(30, 41, 59, 0.92);
+      box-shadow: 0 22px 55px rgba(20, 184, 166, 0.14);
+    }
+
+    /* ---------- Hero ---------- */
+    #home { position: relative; overflow: hidden; }
+    #home > .mx-auto { position: relative; z-index: 1; }
+    .blob { position: absolute; border-radius: 9999px; filter: blur(70px); pointer-events: none; }
+    .blob-1 { width: 340px; height: 340px; background: rgba(20,184,166,.35); top: 8%; left: -6%; animation: blobA 14s ease-in-out infinite alternate; }
+    .blob-2 { width: 300px; height: 300px; background: rgba(15,118,110,.28); bottom: 5%; right: -4%; animation: blobB 16s ease-in-out infinite alternate; }
+    @keyframes blobA { to { transform: translate(90px, 60px) scale(1.15); } }
+    @keyframes blobB { to { transform: translate(-80px, -50px) scale(1.2); } }
+
+    .float-soft { animation: floatY 6s ease-in-out infinite; }
+    @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+    .glow-pulse { animation: glow 5s ease-in-out infinite; }
+    @keyframes glow { 0%, 100% { opacity: .8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+
+    /* ---------- Header, progress bar, nav underline ---------- */
+    header { animation: slideDown .8s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: none; opacity: 1; } }
+    header.scrolled { box-shadow: 0 8px 30px rgba(15, 23, 42, 0.10); }
+
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 70;
+      transform-origin: left; transform: scaleX(0);
+      background: linear-gradient(90deg, #14b8a6, #0f766e);
+    }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0;
+      background: #0f766e; transition: width .3s ease;
+    }
+    .nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
+    .mobile-link::after { display: none; }
+
+    /* ---------- Skill bars ---------- */
+    .skill-fill {
+      clip-path: inset(0 100% 0 0 round 9999px);
+      transition: clip-path 1.4s cubic-bezier(.22,1,.36,1) var(--d, 0ms);
+    }
+    .visible .skill-fill { clip-path: inset(0 0 0 0 round 9999px); }
+
+    /* ---------- Modals & mobile menu ---------- */
+    [id$="-modal"]:not(.hidden) { animation: fadeIn .3s ease; }
+    [id$="-modal"]:not(.hidden) > [role="dialog"] { animation: popIn .4s cubic-bezier(.22,1,.36,1); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes popIn { from { opacity: 0; transform: translateY(24px) scale(.95); } to { opacity: 1; transform: none; } }
+    #mobile-menu:not(.hidden) { animation: dropIn .3s ease; }
+    @keyframes dropIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+    /* ---------- Reduced motion ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      body .reveal { opacity: 1; translate: 0 0; scale: 1; }
+      .skill-fill { clip-path: none; }
+    }
+
+
+
+    
+  </style>
+</head>
+
+<body class="bg-cream text-ink antialiased transition-colors duration-300 dark:bg-[#0f172a] dark:text-mist">
+  <!-- Header / Navbar -->
+  <header class="fixed left-0 right-0 top-0 z-50 border-b border-ink/10 bg-cream/85 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-[#0f172a]/85">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10" aria-label="Primary navigation">
+      <a href="#home" class="font-display text-xl font-bold tracking-wide text-ink transition hover:text-coral dark:text-white dark:hover:text-coral">
+        <span class="text-coral">Bibi</span> Ayesha
+      </a>
+
+      <div class="hidden items-center gap-5 lg:flex">
+        <a class="nav-link text-xs font-semibold uppercase tracking-wide text-ink/70 transition hover:text-coral dark:text-mist/75 dark:hover:text-coral" href="#home">Home</a>
+        <a class="nav-link text-xs font-semibold uppercase tracking-wide text-ink/70 transition hover:text-coral dark:text-mist/75 dark:hover:text-coral" href="#about">About</a>
+        <a class="nav-link text-xs font-semibold uppercase tracking-wide text-ink/70 transition hover:text-coral dark:text-mist/75 dark:hover:text-coral" href="#education">Education</a>
+        <a class="nav-link text-xs font-semibold uppercase tracking-wide text-ink/70 transition hover:text-coral dark:text-mist/75 dark:hover:text-coral" href="#projects">Projects</a>
+        <a class="nav-link text-xs font-semibold uppercase tracking-wide text-ink/70 transition hover:text-coral dark:text-mist/75 dark:hover:text-coral" href="#certifications">Achievements</a>
+        <a class="nav-link text-xs font-semibold uppercase tracking-wide text-ink/70 transition hover:text-coral dark:text-mist/75 dark:hover:text-coral" href="#experience">Experience</a>
+        
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white/70 text-ink transition hover:border-coral hover:text-coral dark:border-white/10 dark:bg-white/5 dark:text-mist dark:hover:border-coral" aria-label="Toggle dark mode">
+          <svg id="sun-icon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg id="moon-icon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"></path>
+          </svg>
+        </button>
+
+        <button id="menu-toggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-white/70 text-ink transition hover:border-coral hover:text-coral dark:border-white/10 dark:bg-white/5 dark:text-mist dark:hover:border-coral lg:hidden" aria-label="Open menu" aria-expanded="false">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden border-t border-ink/10 bg-cream px-5 py-4 dark:border-white/10 dark:bg-[#0f172a] lg:hidden">
+      <div class="mx-auto grid max-w-7xl gap-3">
+        <a class="nav-link mobile-link rounded-lg px-3 py-2 text-sm font-semibold text-ink/75 hover:bg-mist hover:text-coral dark:text-mist/75 dark:hover:bg-white/10 dark:hover:text-coral" href="#home">Home</a>
+        <a class="nav-link mobile-link rounded-lg px-3 py-2 text-sm font-semibold text-ink/75 hover:bg-mist hover:text-coral dark:text-mist/75 dark:hover:bg-white/10 dark:hover:text-coral" href="#about">About</a>
+        <a class="nav-link mobile-link rounded-lg px-3 py-2 text-sm font-semibold text-ink/75 hover:bg-mist hover:text-coral dark:text-mist/75 dark:hover:bg-white/10 dark:hover:text-coral" href="#projects">Projects</a>
+        <a class="nav-link mobile-link rounded-lg px-3 py-2 text-sm font-semibold text-ink/75 hover:bg-mist hover:text-coral dark:text-mist/75 dark:hover:bg-white/10 dark:hover:text-coral" href="#certifications">Publications</a>
+        <a class="nav-link mobile-link rounded-lg px-3 py-2 text-sm font-semibold text-ink/75 hover:bg-mist hover:text-coral dark:text-mist/75 dark:hover:bg-white/10 dark:hover:text-coral" href="#experience">Experience</a>
+        <a class="nav-link mobile-link rounded-lg px-3 py-2 text-sm font-semibold text-ink/75 hover:bg-mist hover:text-coral dark:text-mist/75 dark:hover:bg-white/10 dark:hover:text-coral" href="#education">Education</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Home -->
+    <section id="home" class="hero-pattern flex min-h-screen scroll-mt-24 items-center pt-24">
+      <div class="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-10 px-5 py-16 sm:px-8 lg:flex-row lg:gap-16">
+        <div class="reveal text-center lg:text-left">
+          <span class="inline-flex items-center rounded-full border border-coral/25 bg-white/55 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-coral shadow-sm dark:bg-white/5">
+            Web Developer | Researcher
+          </span>
+          <h1 class="mt-6 font-display text-3xl font-bold leading-tight text-ink dark:text-white sm:text-4xl lg:text-5xl">
+            Bibi Ayesha Akhter
+          </h1>
+          <p class="mt-4 max-w-md text-base font-medium leading-7 text-ink/75 dark:text-mist/80">
+            Building useful technology through code, research, and curiosity.
+          </p>
+          <div class="mt-8 flex flex-row flex-wrap justify-center gap-4 lg:justify-start">
+            <a href="cv.pdf" target="_blank" rel="noopener" class="inline-flex items-center justify-center rounded-full bg-coral px-7 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#115e59]">
+              Resume
+            </a>
+            <a href="#contact" class="inline-flex items-center justify-center rounded-full border border-coral px-7 py-3 text-sm font-bold text-coral transition hover:-translate-y-0.5 hover:bg-coral hover:text-white">
+              Contact Me
+            </a>
+          </div>
+        </div>
+
+        <div class="reveal shrink-0">
+          <div class="relative h-64 w-64 sm:h-80 sm:w-80">
+            <div class="absolute inset-0 rounded-full bg-sage/35 blur-2xl"></div>
+            <div class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-white/70 bg-white/65 shadow-soft backdrop-blur dark:border-white/10 dark:bg-white/5">
+              <img src="a2.jpg" alt="Bibi Ayesha Akhter" class="h-[95%] w-[95%] rounded-full object-cover shadow-soft" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About + Skills -->
+    <section id="about" class="scroll-mt-24 py-24">
+      <div class="mx-auto grid max-w-6xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:px-10">
+
+        <!-- About -->
+        <div class="reveal">
+          <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">About</p>
+          <h2 class="mt-3 font-display text-2xl font-bold text-ink dark:text-white sm:text-3xl">Tech with Purpose</h2>
+          <p class="mt-6 border-l-4 border-coral/40 pl-5 text-base leading-8 text-ink/72 dark:text-mist/75">
+            I am a Computer Science undergraduate with a strong focus on Full-Stack Development using MERN stack and Python. Currently working as a Teaching Assistant at IIUC, I support research and assist students. I am also the co-founder of Make Me Pretty, a skincare initiative that provides beauty solutions. I am passionate about applying technology to real-world problems and constantly seeking opportunities to grow and collaborate in the tech and beauty industries.
+          </p>
+        </div>
+
+        <!-- Skills -->
+        <div class="reveal">
+          <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">Skills</p>
+          <h2 class="mt-3 font-display text-2xl font-bold text-ink dark:text-white sm:text-3xl">Core Skills</h2>
+
+          <div class="mt-8 space-y-5">
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Full-Stack Web Development</span><span class="text-coral">86%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[86%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Machine Learning & AI</span><span class="text-coral">80%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[80%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>IoT (Internet of Things)</span><span class="text-coral">82%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[82%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Research Skill</span><span class="text-coral">85%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[85%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Digital Marketing</span><span class="text-coral">80%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[80%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Management & Teamwork</span><span class="text-coral">82%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[82%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Teaching & Presentation</span><span class="text-coral">84%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[84%] rounded-full bg-coral"></div></div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-sm font-semibold"><span>Programming Languages</span><span class="text-coral">85%</span></div>
+              <div class="mt-2 h-2 rounded-full bg-mist dark:bg-white/10"><div class="h-2 w-[85%] rounded-full bg-coral"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <!-- Education -->
+    <section id="education" class="scroll-mt-24 py-24">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">Education</p>
+          <h2 class="mt-3 font-display text-2xl font-bold text-ink dark:text-white sm:text-3xl">Academic Background</h2>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+  <article class="reveal rounded-2xl border border-ink/10 bg-white p-5 text-center shadow-sm dark:border-white/10 dark:bg-[#1e293b]">
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-coral">2022-Present</p>
+    <h3 class="mt-3 text-base font-bold">B. Sc. in Computer Science and Engineering</h3>
+    <p class="mt-2 text-xs font-semibold text-moss dark:text-sage">International Islamic University Chittagong, Bangladesh</p>
+    <p class="mt-4 rounded-xl bg-mist px-3 py-2 text-xs font-bold text-ink/75 dark:bg-white/10 dark:text-mist">CGPA: 3.846/4.00</p>
+  </article>
+
+  <article class="reveal rounded-2xl border border-ink/10 bg-white p-5 text-center shadow-sm dark:border-white/10 dark:bg-[#1e293b]">
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-coral">2018</p>
+    <h3 class="mt-3 text-base font-bold">Higher Secondary Certificate</h3>
+    <p class="mt-2 text-xs font-semibold text-moss dark:text-sage">Cambrian College, Chittagong</p>
+    <p class="mt-4 rounded-xl bg-mist px-3 py-2 text-xs font-bold text-ink/75 dark:bg-white/10 dark:text-mist">GPA: 5.00/5.00</p>
+  </article>
+
+  <article class="reveal rounded-2xl border border-ink/10 bg-white p-5 text-center shadow-sm dark:border-white/10 dark:bg-[#1e293b]">
+    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-coral">2018</p>
+    <h3 class="mt-3 text-base font-bold">Secondary School Certificate</h3>
+    <p class="mt-2 text-xs font-semibold text-moss dark:text-sage">Hatey Khari School And College, Chittagong</p>
+    <p class="mt-4 rounded-xl bg-mist px-3 py-2 text-xs font-bold text-ink/75 dark:bg-white/10 dark:text-mist">GPA: 4.83/5.00</p>
+  </article>
+</div>
+      </div>
+    </section>
+ <!-- Projects -->
+<section id="projects" class="scroll-mt-24 bg-mist/55 py-24 dark:bg-white/[0.03]">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <div class="reveal mx-auto max-w-3xl text-center">
+  <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">Projects</p>
+  <h2 class="mt-3 font-display text-3xl font-bold text-ink dark:text-white sm:text-4xl">Featured Projects</h2>
+  <p class="mt-4 text-sm leading-6 text-ink/65 dark:text-mist/65">A blend of web systems, IoT, machine learning, OS simulation, and graphics work.</p>
+</div>
+      
+    </div>
+
+    <!-- Horizontal scroll -->
+    <div id="project-scroller" class="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto px-1 pb-6 pt-3 [scrollbar-width:thin]">
+
+      <!-- Project 1 -->
+      <div class="project-card group w-60 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/5 sm:w-64" role="button" tabindex="0" data-github="https://github.com/ayeshaakhter01/DRIVER-HEALTH-CHECKING-AND-CONDITION-ASSESSMENT-USING-MACHINE-LEARNING-AND-IOT">
+        <div class="h-32 w-full overflow-hidden bg-mist dark:bg-white/10"><img src="1.jpg" alt="Driver Health Checking" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.style.display='none'" /></div>
+        <div class="p-5">
+          <h3 class="project-title line-clamp-2 text-lg font-bold">Driver Health Checking & Condition Assessment</h3>
+          <p class="project-desc mt-2 line-clamp-2 text-sm leading-6 text-ink/68 dark:text-mist/70">Designed an IoT and Machine Learning-based system to monitor driver vital signs and assess physical condition in real-time to prevent accidents.</p>
+          <div class="project-tags hidden"><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">IoT</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Machine Learning</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Sensors</span></div>
+          <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card group w-60 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/5 sm:w-64" role="button" tabindex="0" data-github="https://github.com/ayeshaakhter01/Network-Traffic-Classification-Using-Machine-Learning">
+        <div class="h-32 w-full overflow-hidden bg-mist dark:bg-white/10"><img src="2.png" alt="Network Traffic Classification" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.style.display='none'" /></div>
+        <div class="p-5">
+          <h3 class="project-title line-clamp-2 text-lg font-bold">Network Traffic Classification</h3>
+          <p class="project-desc mt-2 line-clamp-2 text-sm leading-6 text-ink/68 dark:text-mist/70">Implemented Machine Learning algorithms to analyze and classify network traffic packets for better security and bandwidth management.</p>
+          <div class="project-tags hidden"><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Machine Learning</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Security</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Networking</span></div>
+          <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card group w-60 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/5 sm:w-64" role="button" tabindex="0" data-github="https://github.com/ayeshaakhter01/Air-Traffic-Controller-OS-operating-system-Simulator-">
+        <div class="h-32 w-full overflow-hidden bg-mist dark:bg-white/10"><img src="33.jpg" alt="Air Traffic Controller OS Simulator" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.style.display='none'" /></div>
+        <div class="p-5">
+          <h3 class="project-title line-clamp-2 text-lg font-bold">Air Traffic Controller OS Simulator</h3>
+          <p class="project-desc mt-2 line-clamp-2 text-sm leading-6 text-ink/68 dark:text-mist/70">Developed an Operating System simulator demonstrating process scheduling and resource management within an Air Traffic Control environment.</p>
+          <div class="project-tags hidden"><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">OS</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Scheduling</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Simulation</span></div>
+          <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        </div>
+      </div>
+
+         <!-- Project 5 -->
+      <div class="project-card group w-60 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/5 sm:w-64" role="button" tabindex="0" data-github="https://github.com/ayeshaakhter01/-Opti-Home-Automation-System-using-IOT">
+        <div class="h-32 w-full overflow-hidden bg-mist dark:bg-white/10"><img src="last.jpeg" alt="Opti-Home Automation System" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.style.display='none'" /></div>
+        <div class="p-5">
+          <h3 class="project-title line-clamp-2 text-lg font-bold">Opti-Home Automation System</h3>
+          <p class="project-desc mt-2 line-clamp-2 text-sm leading-6 text-ink/68 dark:text-mist/70">Built a smart home automation system using IoT sensors and microcontrollers for remote device control and energy efficiency.</p>
+          <div class="project-tags hidden"><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">IoT</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Sensors</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Automation</span></div>
+          <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card group w-60 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/5 sm:w-64" role="button" tabindex="0" data-github="https://github.com/ayeshaakhter01/-Beautiful-Life-Journey-">
+        <div class="h-32 w-full overflow-hidden bg-mist dark:bg-white/10"><img src="4.png" alt="A Beautiful Life Journey" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.style.display='none'" /></div>
+        <div class="p-5">
+          <h3 class="project-title line-clamp-2 text-lg font-bold">A Beautiful Life Journey (Computer Graphics)</h3>
+          <p class="project-desc mt-2 line-clamp-2 text-sm leading-6 text-ink/68 dark:text-mist/70">Created a visual storytelling project using Computer Graphics (OpenGL/C++) to depict different stages of life through animation.</p>
+          <div class="project-tags hidden"><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">OpenGL</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">C++</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Animation</span></div>
+          <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        </div>
+      </div>
+
+   
+
+            <!-- Project 7 -->
+      <div class="project-card group w-60 shrink-0 cursor-pointer snap-start overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-soft dark:border-white/10 dark:bg-white/5 sm:w-64" role="button" tabindex="0" data-github="https://github.com/ayeshaakhter01/NFC-Based-Product-Authentication-System-using-HTML-Bootstrap-PHP-and-IOT.">
+        <div class="h-32 w-full overflow-hidden bg-mist dark:bg-white/10"><img src="figure-5 (1).png" alt="NFC Based Product Authentication System" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.style.display='none'" /></div>
+        <div class="p-5">
+          <h3 class="project-title line-clamp-2 text-lg font-bold">NFC Based Product Authentication System</h3>
+          <p class="project-desc mt-2 line-clamp-2 text-sm leading-6 text-ink/68 dark:text-mist/70">Developed a product verification system using NFC tags to ensure authenticity using HTML, Bootstrap, PHP, and IoT integration.</p>
+          <div class="project-tags hidden"><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">HTML</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">Bootstrap</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">PHP</span><span class="rounded-full bg-mist px-3 py-1 text-xs font-bold text-moss dark:bg-white/10 dark:text-sage">IoT</span></div>
+          <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Project modal -->
+  <div id="project-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-ink/70 p-4 backdrop-blur-sm" aria-hidden="true">
+    <div class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-soft dark:bg-[#1e293b]" role="dialog" aria-modal="true">
+      <button id="modal-close" type="button" aria-label="Close" class="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-lg font-bold text-ink shadow transition hover:bg-coral hover:text-white">&times;</button>
+      <div id="modal-img-wrap" class="w-full bg-mist dark:bg-white/10"><img id="modal-img" src="" alt="" class="max-h-[50vh] w-full object-cover" /></div>
+      <div class="p-6 sm:p-8">
+        <h3 id="modal-title" class="font-display text-2xl font-bold text-ink dark:text-white"></h3>
+        <p id="modal-desc" class="mt-4 text-sm leading-7 text-ink/72 dark:text-mist/75"></p>
+        <div id="modal-tags" class="mt-5 flex flex-wrap gap-2"></div>
+        <a id="modal-link" href="#" target="_blank" rel="noopener" class="mt-7 inline-flex items-center justify-center rounded-full bg-coral px-6 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#115e59]">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+   
+
+
+
+
+   <!-- Achievements -->
+<section id="certifications" class="scroll-mt-24 py-24">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <div class="reveal mx-auto max-w-3xl text-center">
+  <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">Achievements</p>
+  <h2 class="mt-3 font-display text-2xl font-bold text-ink dark:text-white sm:text-3xl">Milestones & Research</h2>
+</div>
+
+
+    <!-- Two boxes -->
+    <div class="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-2">
+      <div class="open-modal group flex cursor-pointer flex-col items-center rounded-2xl border border-ink/10 bg-white p-8 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft dark:border-white/10 dark:bg-[#1e293b]" data-target="cert-modal" role="button" tabindex="0">
+        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-coral/12 text-coral">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="6"/><path d="m8.5 14.5-1.5 7 5-3 5 3-1.5-7"/></svg>
+        </div>
+        <h3 class="mt-5 text-xl font-bold">Certifications</h3>
+        <p class="mt-2 text-sm text-ink/65 dark:text-mist/65">Courses and certificates I have earned.</p>
+        <p class="mt-5 text-xs font-bold text-coral">Click to view &rarr;</p>
+      </div>
+
+      <div class="open-modal group flex cursor-pointer flex-col items-center rounded-2xl border border-ink/10 bg-white p-8 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft dark:border-white/10 dark:bg-[#1e293b]" data-target="pub-modal" role="button" tabindex="0">
+        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-coral/12 text-coral">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3 class="mt-5 text-xl font-bold">Publications</h3>
+        <p class="mt-2 text-sm text-ink/65 dark:text-mist/65">Research papers published in conferences.</p>
+        <p class="mt-5 text-xs font-bold text-coral">Click to view &rarr;</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certifications modal (side by side) -->
+  <div id="cert-modal" class="modal-overlay fixed inset-0 z-[60] hidden items-center justify-center bg-ink/70 p-4 backdrop-blur-sm">
+    <div class="relative max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-2xl bg-white p-6 shadow-soft dark:bg-[#1e293b] sm:p-8" role="dialog" aria-modal="true">
+      <button type="button" aria-label="Close" class="modal-close absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-mist text-lg font-bold text-ink transition hover:bg-coral hover:text-white">&times;</button>
+      <h3 class="font-display text-2xl font-bold text-ink dark:text-white">Certifications</h3>
+
+      <div class="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Certificate 1 -->
+        <div class="cert-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="c1.jpg" data-badge="2025" data-title="NASA Space Apps Challenge 2025"
+          data-desc="Participated in the NASA International Space Apps Challenge 2025, a global hackathon solving real-world challenges using NASA's open data."
+          data-issuer="NASA International Space Apps Challenge">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="c1.jpg" alt="NASA Space Apps Challenge 2025 certificate" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">NASA Space Apps Challenge 2025</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Participated in the NASA International Space Apps Challenge 2025, a global hackathon solving real-world challenges using NASA's open data.</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">NASA International Space Apps Challenge</p>
+          </div>
+        </div>
+
+        <!-- Certificate 2 -->
+        <div class="cert-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="c2.jpg" data-badge="2024" data-title="International Conference on Innovative in Science, Engineering and Technology"
+          data-desc="Attended and contributed to ICISET-2024, an international conference focused on innovative research in science, engineering, and technology."
+          data-issuer="ICISET-2024">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="c2.jpg" alt="ICISET 2024 conference certificate" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2024</span>
+            <h4 class="mt-3 text-base font-bold">International Conference on Innovative in Science, Engineering and Technology</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Attended and contributed to ICISET-2024, an international conference focused on innovative research in science, engineering, and technology.</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">ICISET-2024</p>
+          </div>
+        </div>
+
+        <!-- Certificate 3 -->
+        <div class="cert-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="c3.png" data-badge="2025" data-title="Milestone Achievement Certificate"
+          data-desc="Awarded for reaching a key milestone achievement recognized by AppLink."
+          data-issuer="AppLink">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="c3.png" alt="Milestone Achievement Certificate" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">Milestone Achievement Certificate</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Awarded for reaching a key milestone achievement recognized by AppLink.</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">AppLink</p>
+          </div>
+        </div>
+
+        <!-- Certificate 4 -->
+        <div class="cert-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="c4.jpg" data-badge="2025" data-title="Unlocking Innovation: Mastering Embedded Systems"
+          data-desc="Completed a training session on embedded systems fundamentals, covering core concepts and hands-on innovation practices."
+          data-issuer="IEEE Robotics and Automation Society">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="c4.jpg" alt="Unlocking Innovation: Mastering Embedded Systems certificate" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">Unlocking Innovation: Mastering Embedded Systems</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Completed a training session on embedded systems fundamentals, covering core concepts and hands-on innovation practices.</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">IEEE Robotics and Automation Society</p>
+          </div>
+        </div>
+
+        <!-- Certificate 5 -->
+        <div class="cert-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="c5.jpg" data-badge="2025" data-title="App Development Crash Course"
+          data-desc="Completed a crash course covering the fundamentals of app development, organized by IEEE Computer Society."
+          data-issuer="IEEE Computer Society">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="c5.jpg" alt="App Development Crash Course certificate" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">App Development Crash Course</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Completed a crash course covering the fundamentals of app development, organized by IEEE Computer Society.</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">IEEE Computer Society</p>
+          </div>
+        </div>
+                <!-- Certificate 6 -->
+        <div class="cert-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="c6.jpg" data-badge="2026" data-title="AI Seminar: Trust, Transparency, Optimization"
+          data-desc="Participated in the AI Seminar 'Trust, Transparency, Optimization: Rethinking AI Systems for Real-World Adoption', organized by IIUC Computer Club as part of IIUC CSE Fest 2026."
+          data-issuer="IIUC Computer Club, International Islamic University Chittagong">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="c6.jpg" alt="AI Seminar certificate of participation" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2026</span>
+            <h4 class="mt-3 text-base font-bold">AI Seminar: Trust, Transparency, Optimization</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Participated in the AI Seminar "Trust, Transparency, Optimization: Rethinking AI Systems for Real-World Adoption", organized by IIUC Computer Club as part of IIUC CSE Fest 2026.</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">IIUC Computer Club, International Islamic University Chittagong</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certificate detail (full view) modal -->
+  <div id="cert-detail-modal" class="modal-overlay fixed inset-0 z-[70] hidden items-center justify-center bg-ink/80 p-4 backdrop-blur-sm">
+    <div class="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 shadow-soft dark:bg-[#1e293b] sm:p-8" role="dialog" aria-modal="true">
+      <button type="button" id="cert-detail-close" aria-label="Close" class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-mist text-lg font-bold text-ink transition hover:bg-coral hover:text-white z-10">&times;</button>
+      <div class="w-full overflow-hidden rounded-xl bg-mist dark:bg-white/10">
+        <img id="cert-detail-img" src="" alt="" class="w-full max-h-[60vh] object-contain" onerror="this.style.display='none'" />
+      </div>
+      <div class="mt-6">
+        <span id="cert-detail-badge" class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral"></span>
+        <h4 id="cert-detail-title" class="mt-3 text-xl font-bold text-ink dark:text-white"></h4>
+        <p id="cert-detail-desc" class="mt-3 text-sm leading-6 text-ink/68 dark:text-mist/70"></p>
+        <p id="cert-detail-issuer" class="mt-4 text-xs font-semibold text-moss dark:text-sage"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const detailModal = document.getElementById('cert-detail-modal');
+      const detailImg = document.getElementById('cert-detail-img');
+      const detailBadge = document.getElementById('cert-detail-badge');
+      const detailTitle = document.getElementById('cert-detail-title');
+      const detailDesc = document.getElementById('cert-detail-desc');
+      const detailIssuer = document.getElementById('cert-detail-issuer');
+
+      document.querySelectorAll('.cert-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          detailImg.src = card.dataset.img;
+          detailImg.alt = card.dataset.title;
+          detailImg.style.display = '';
+          detailBadge.textContent = card.dataset.badge;
+          detailTitle.textContent = card.dataset.title;
+          detailDesc.textContent = card.dataset.desc;
+          detailIssuer.textContent = card.dataset.issuer;
+          detailModal.classList.remove('hidden');
+          detailModal.classList.add('flex');
+        });
+      });
+
+      function closeDetail() {
+        detailModal.classList.add('hidden');
+        detailModal.classList.remove('flex');
+      }
+
+      document.getElementById('cert-detail-close').addEventListener('click', closeDetail);
+      detailModal.addEventListener('click', (e) => {
+        if (e.target === detailModal) closeDetail();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDetail();
+      });
+    })();
+  </script>
+
+  <!-- Publications modal (side by side) -->
+  <div id="pub-modal" class="modal-overlay fixed inset-0 z-[60] hidden items-center justify-center bg-ink/70 p-4 backdrop-blur-sm">
+    <div class="relative max-h-[90vh] w-full max-w-6xl overflow-y-auto rounded-2xl bg-white p-6 shadow-soft dark:bg-[#1e293b] sm:p-8" role="dialog" aria-modal="true">
+      <button type="button" aria-label="Close" class="modal-close absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-mist text-lg font-bold text-ink transition hover:bg-coral hover:text-white">&times;</button>
+      <h3 class="font-display text-2xl font-bold text-ink dark:text-white">Publications</h3>
+
+      <div class="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="pub-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="p1.jpg" data-badge="2025" data-title="&quot;IoT Enabled Driver Health Checking and Condition Assessment Using Machine Learning&quot;"
+          data-authors="Md. Sadman Hasan, Mohammed Jayed, Bibi Ayesha Akhter"
+          data-venue="International Conference on Intelligent Data Analysis and Applications (IDAA)">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="p1.jpg" alt="Driver Health Checking publication" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">"IoT Enabled Driver Health Checking and Condition Assessment Using Machine Learning"</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Md. Sadman Hasan, Mohammed Jayed, Bibi Ayesha Akhter</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">International Conference on Intelligent Data Analysis and Applications (IDAA)</p>
+          </div>
+        </div>
+
+        <div class="pub-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="p2.jpg" data-badge="2025" data-title="&quot;An Efficient NFC Blockchain Model For Detecting Counterfeit And Expired Products&quot;"
+          data-authors="Md. Sadman Hasan, Bibi Ayesha Akhter, Fahmida Yasmin, Zannatun Naim, Mr. Arafath Al Fahim"
+          data-venue="International Conference on Intelligent Data Analysis and Applications (IDAA)">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="p2.jpg" alt="NFC Blockchain publication" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">"An Efficient NFC Blockchain Model For Detecting Counterfeit And Expired Products"</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Md. Sadman Hasan, Bibi Ayesha Akhter, Fahmida Yasmin, Zannatun Naim, Mr. Arafath Al Fahim</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">International Conference on Intelligent Data Analysis and Applications (IDAA)</p>
+          </div>
+        </div>
+
+        <div class="pub-card flex cursor-pointer flex-col overflow-hidden rounded-xl border border-ink/10 bg-white transition hover:shadow-soft hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5"
+          data-img="p3.jpg" data-badge="2025" data-title="&quot;Comparative Deep Learning Analysis of CNN, Transformer and Hybrid Architectures for Ovarian Condition Detection&quot;"
+          data-authors="Shadman Yaser, Baizid Kamruzzaman, Baizid MD Ashadzzaman, Mohammed Jayed, Md. Sadman Hasan, Bibi Ayesha Akhter"
+          data-venue="28th International Conference on Computer and Information Technology (ICCIT), IEEE">
+          <div class="h-40 w-full overflow-hidden bg-mist dark:bg-white/10 flex items-center justify-center"><img src="p3.jpg" alt="Ovarian Condition Detection publication" class="h-full w-full object-contain" onerror="this.style.display='none'" /></div>
+          <div class="flex flex-1 flex-col p-5">
+            <span class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+            <h4 class="mt-3 text-base font-bold">"Comparative Deep Learning Analysis of CNN, Transformer and Hybrid Architectures for Ovarian Condition Detection"</h4>
+            <p class="mt-3 flex-1 text-sm leading-6 text-ink/68 dark:text-mist/70">Shadman Yaser, Baizid Kamruzzaman, Baizid MD Ashadzzaman, Mohammed Jayed, Md. Sadman Hasan, Bibi Ayesha Akhter</p>
+            <p class="mt-4 text-xs font-semibold text-moss dark:text-sage">28th International Conference on Computer and Information Technology (ICCIT), IEEE</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publication detail (full view) modal -->
+  <div id="pub-detail-modal" class="modal-overlay fixed inset-0 z-[70] hidden items-center justify-center bg-ink/80 p-4 backdrop-blur-sm">
+    <div class="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 shadow-soft dark:bg-[#1e293b] sm:p-8" role="dialog" aria-modal="true">
+      <button type="button" id="pub-detail-close" aria-label="Close" class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-mist text-lg font-bold text-ink transition hover:bg-coral hover:text-white z-10">&times;</button>
+      <div class="w-full overflow-hidden rounded-xl bg-mist dark:bg-white/10">
+        <img id="pub-detail-img" src="" alt="" class="w-full max-h-[60vh] object-contain" onerror="this.style.display='none'" />
+      </div>
+      <div class="mt-6">
+        <span id="pub-detail-badge" class="w-fit rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral"></span>
+        <h4 id="pub-detail-title" class="mt-3 text-xl font-bold text-ink dark:text-white"></h4>
+        <p id="pub-detail-authors" class="mt-3 text-sm leading-6 text-ink/68 dark:text-mist/70"></p>
+        <p id="pub-detail-venue" class="mt-4 text-xs font-semibold text-moss dark:text-sage"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const detailModal = document.getElementById('pub-detail-modal');
+      const detailImg = document.getElementById('pub-detail-img');
+      const detailBadge = document.getElementById('pub-detail-badge');
+      const detailTitle = document.getElementById('pub-detail-title');
+      const detailAuthors = document.getElementById('pub-detail-authors');
+      const detailVenue = document.getElementById('pub-detail-venue');
+
+      document.querySelectorAll('.pub-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          detailImg.src = card.dataset.img;
+          detailImg.alt = card.dataset.title;
+          detailImg.style.display = '';
+          detailBadge.textContent = card.dataset.badge;
+          detailTitle.textContent = card.dataset.title;
+          detailAuthors.textContent = card.dataset.authors;
+          detailVenue.textContent = card.dataset.venue;
+          detailModal.classList.remove('hidden');
+          detailModal.classList.add('flex');
+        });
+      });
+
+      function closeDetail() {
+        detailModal.classList.add('hidden');
+        detailModal.classList.remove('flex');
+      }
+
+      document.getElementById('pub-detail-close').addEventListener('click', closeDetail);
+      detailModal.addEventListener('click', (e) => {
+        if (e.target === detailModal) closeDetail();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDetail();
+      });
+    })();
+  </script>
+</section>
+<!-- Experience -->
+<section id="experience" class="scroll-mt-24 bg-mist/55 py-24 dark:bg-white/[0.03]">
+  <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+    <div class="reveal mx-auto max-w-3xl text-center">
+      <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">Experience</p>
+      <h2 class="mt-3 font-display text-2xl font-bold text-ink dark:text-white sm:text-3xl">Leadership & Teaching</h2>
+    </div>
+
+    <!-- Small cards -->
+    <div class="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-1 pb-6 pt-3 [scrollbar-width:thin] lg:justify-center">
+
+      <!-- Co-Founder -->
+      <div class="exp-card w-60 shrink-0 cursor-pointer snap-start rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft dark:border-white/10 dark:bg-white/5" role="button" tabindex="0">
+        <span class="rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2021 - 2026</span>
+        <h3 class="exp-title mt-4 line-clamp-2 text-base font-bold">Co-Founder, E-Commerce</h3>
+        <p class="exp-org mt-1 line-clamp-1 text-sm font-semibold text-moss dark:text-sage">Make Me Pretty</p>
+        <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        <div class="exp-detail hidden">
+          <p class="mt-3 text-sm leading-7 text-ink/72 dark:text-mist/75">Co-founded the e-commerce platform providing authentic skincare products; managed daily operations, strategic marketing, and customer relations.</p>
+        </div>
+      </div>
+
+      <!-- Teaching Assistant -->
+      <div class="exp-card w-60 shrink-0 cursor-pointer snap-start rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft dark:border-white/10 dark:bg-white/5" role="button" tabindex="0">
+        <span class="rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025 - 2026</span>
+        <h3 class="exp-title mt-4 line-clamp-2 text-base font-bold">Teaching Assistant (TA)</h3>
+        <p class="exp-org mt-1 line-clamp-1 text-sm font-semibold text-moss dark:text-sage">International Islamic University Chittagong (IIUC)</p>
+        <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        <div class="exp-detail hidden">
+          <p class="mt-3 text-sm leading-7 text-ink/72 dark:text-mist/75"><span class="font-semibold">2025:</span> Provided academic support for Data Structure (CSE-2333), assisted in grading and classroom management.</p>
+          <p class="mt-3 text-sm leading-7 text-ink/72 dark:text-mist/75"><span class="font-semibold">2026:</span> Provided academic support for Software Engineering (CSE-3642) and Computer Graphics (CSE-4742), assisted in grading and classroom management.</p>
+        </div>
+      </div>
+
+      <!-- Assistant Photographer -->
+      <div class="exp-card w-60 shrink-0 cursor-pointer snap-start rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft dark:border-white/10 dark:bg-white/5" role="button" tabindex="0">
+        <span class="rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025 - 2026</span>
+        <h3 class="exp-title mt-4 line-clamp-2 text-base font-bold">Assistant Photographer</h3>
+        <p class="exp-org mt-1 line-clamp-1 text-sm font-semibold text-moss dark:text-sage">IIUC Computer Club</p>
+        <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        <div class="exp-detail hidden">
+          <p class="mt-3 text-sm leading-7 text-ink/72 dark:text-mist/75">Covered club events and workshops, managing photography and visual documentation.</p>
+        </div>
+      </div>
+
+      <!-- Volunteer -->
+      <div class="exp-card w-60 shrink-0 cursor-pointer snap-start rounded-2xl border border-ink/10 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft dark:border-white/10 dark:bg-white/5" role="button" tabindex="0">
+        <span class="rounded-full bg-coral/12 px-3 py-1 text-xs font-bold text-coral">2025</span>
+        <h3 class="exp-title mt-4 line-clamp-2 text-base font-bold">Volunteer</h3>
+        <p class="exp-org mt-1 line-clamp-1 text-sm font-semibold text-moss dark:text-sage">Youth's Voice, Bangladesh</p>
+        <p class="mt-4 text-xs font-bold text-coral">Click to view details &rarr;</p>
+        <div class="exp-detail hidden">
+          <p class="mt-3 text-sm leading-7 text-ink/72 dark:text-mist/75">Supported community engagement and youth empowerment initiatives, helped organize events.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Experience modal -->
+  <div id="exp-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-ink/70 p-4 backdrop-blur-sm" aria-hidden="true">
+    <div class="relative max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-6 shadow-soft dark:bg-[#1e293b] sm:p-8" role="dialog" aria-modal="true">
+      <button id="exp-modal-close" type="button" aria-label="Close" class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-mist text-lg font-bold text-ink transition hover:bg-coral hover:text-white">&times;</button>
+      <span id="exp-modal-date" class="rounded-full bg-coral/12 px-4 py-2 text-sm font-bold text-coral"></span>
+      <h3 id="exp-modal-title" class="mt-4 font-display text-2xl font-bold text-ink dark:text-white"></h3>
+      <p id="exp-modal-org" class="mt-2 text-sm font-semibold text-moss dark:text-sage"></p>
+      <div id="exp-modal-detail"></div>
+    </div>
+  </div>
+</section>
+
+    <!-- Contact -->
+    <section id="contact" class="scroll-mt-24 bg-mist/55 py-24 dark:bg-white/[0.03]">
+      <div class="mx-auto grid max-w-5xl gap-8 px-5 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8 lg:px-10">
+        <div class="reveal">
+          <p class="text-sm font-bold uppercase tracking-[0.22em] text-coral">Contact</p>
+          <h2 class="mt-3 font-display text-3xl font-bold text-ink dark:text-white sm:text-4xl">Let's connect.</h2>
+          <div class="mt-8 space-y-4 text-sm font-semibold text-ink/72 dark:text-mist/75">
+            <p>Email: <a class="text-coral hover:underline" href="mailto:ayeshahasan0907@gmail.com">ayeshahasan0907@gmail.com</a></p>
+            <p>Phone: <a class="text-coral hover:underline" href="tel:+8801644611916">+880 1644-611916</a></p>
+            <p>Location: Halishahar, Chattogram, Bangladesh</p>
+          </div>
+          <div class="mt-8 flex gap-3" aria-label="Social links">
+            <a href="https://github.com/ayeshaakhter01" class="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition hover:-translate-y-1 hover:border-coral hover:text-coral dark:border-white/10 dark:bg-white/5 dark:text-mist" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.3-3.2-.1-.3-.6-1.6.1-3.2 0 0 1-.3 3.3 1.2A11.4 11.4 0 0 1 12 6.8c1 0 2 .1 3 .4 2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ayesha-akhter-473365338" class="flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white text-ink transition hover:-translate-y-1 hover:border-coral hover:text-coral dark:border-white/10 dark:bg-white/5 dark:text-mist" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4v12H3v-12Zm7 0h3.8v1.6h.1c.5-.9 1.8-1.9 3.7-1.9 4 0 4.7 2.6 4.7 6v6.3h-4v-5.6c0-1.3 0-3.1-1.9-3.1s-2.2 1.5-2.2 3v5.7h-4v-12Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <form id="contact-form" class="reveal rounded-2xl border border-ink/10 bg-white p-6 shadow-soft dark:border-white/10 dark:bg-[#1e293b]" action="https://formspree.io/f/maenwpjn" method="POST">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="text-sm font-bold text-ink/75 dark:text-mist/75">Name</span>
+              <input type="text" name="name" required class="mt-2 w-full rounded-xl border border-ink/10 bg-cream px-4 py-3 text-sm outline-none transition focus:border-coral focus:ring-4 focus:ring-coral/10 dark:border-white/10 dark:bg-white/5" placeholder="Your name" />
+            </label>
+            <label class="block">
+              <span class="text-sm font-bold text-ink/75 dark:text-mist/75">Email</span>
+              <input type="email" name="email" required class="mt-2 w-full rounded-xl border border-ink/10 bg-cream px-4 py-3 text-sm outline-none transition focus:border-coral focus:ring-4 focus:ring-coral/10 dark:border-white/10 dark:bg-white/5" placeholder="your@email.com" />
+            </label>
+          </div>
+          <label class="mt-5 block">
+            <span class="text-sm font-bold text-ink/75 dark:text-mist/75">Message</span>
+            <textarea name="message" rows="6" required class="mt-2 w-full resize-none rounded-xl border border-ink/10 bg-cream px-4 py-3 text-sm outline-none transition focus:border-coral focus:ring-4 focus:ring-coral/10 dark:border-white/10 dark:bg-white/5" placeholder="Write your message"></textarea>
+          </label>
+          <input type="hidden" name="_subject" value="New portfolio message for Bibi Ayesha Akhter" />
+          <button id="submit-button" type="submit" class="mt-6 inline-flex w-full items-center justify-center rounded-full bg-coral px-6 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#115e59] disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto">
+            Send Message
+          </button>
+          <p id="form-status" class="mt-4 hidden text-sm font-semibold text-moss dark:text-mist/75"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+ <!-- Footer -->
+<footer class="border-t border-ink/10 bg-cream py-8 dark:border-white/10 dark:bg-[#0f172a]">
+  <div class="mx-auto flex max-w-7xl items-center justify-center px-5 text-center sm:px-8 lg:px-10">
+    <p class="text-sm font-semibold text-ink/65 dark:text-mist/65">© <span id="year"></span> Bibi Ayesha Akhter. All Rights Reserved</p>
+  </div>
+</footer>
+
+
+  <script>
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("theme-toggle");
+    const sunIcon = document.getElementById("sun-icon");
+    const moonIcon = document.getElementById("moon-icon");
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const contactForm = document.getElementById("contact-form");
+    const formStatus = document.getElementById("form-status");
+    const submitButton = document.getElementById("submit-button");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll("section[id]");
+
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    function setTheme(isDark) {
+      root.classList.toggle("dark", isDark);
+      sunIcon.classList.toggle("hidden", !isDark);
+      moonIcon.classList.toggle("hidden", isDark);
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+
+    setTheme(storedTheme ? storedTheme === "dark" : prefersDark);
+
+    themeToggle.addEventListener("click", () => {
+      setTheme(!root.classList.contains("dark"));
+    });
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = !mobileMenu.classList.contains("hidden");
+      mobileMenu.classList.toggle("hidden", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const originalButtonText = submitButton.textContent;
+
+      formStatus.textContent = "Sending your message...";
+      formStatus.className = "mt-4 text-sm font-semibold text-moss dark:text-mist/75";
+      formStatus.classList.remove("hidden");
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" },
+        });
+
+        if (!response.ok) {
+          throw new Error("Formspree submission failed");
+        }
+
+        contactForm.reset();
+        formStatus.textContent = "Message sent successfully. Thank you!";
+        formStatus.className = "mt-4 text-sm font-semibold text-coral";
+      } catch (error) {
+        formStatus.textContent = "Message could not be sent. Please try again or email directly.";
+        formStatus.className = "mt-4 text-sm font-semibold text-red-600 dark:text-red-400";
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    });
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            navLinks.forEach((link) => {
+              link.classList.toggle("active-link", link.getAttribute("href") === `#${id}`);
+            });
+          }
+        });
+      },
+      { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+    );
+
+    sections.forEach((section) => sectionObserver.observe(section));
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+
+
+
+  // Projects: arrow scroll + modal
+  (function () {
+    const scroller = document.getElementById("project-scroller");
+    const modal = document.getElementById("project-modal");
+    const modalImg = document.getElementById("modal-img");
+    const modalImgWrap = document.getElementById("modal-img-wrap");
+    const modalTitle = document.getElementById("modal-title");
+    const modalDesc = document.getElementById("modal-desc");
+    const modalTags = document.getElementById("modal-tags");
+    const modalLink = document.getElementById("modal-link");
+
+    
+
+    function openModal(card) {
+      const img = card.querySelector("img");
+      modalImgWrap.style.display = "";
+      modalImg.onerror = () => { modalImgWrap.style.display = "none"; };
+      modalImg.src = img.getAttribute("src");
+      modalImg.alt = img.alt;
+      modalTitle.textContent = card.querySelector(".project-title").textContent;
+      modalDesc.textContent = card.querySelector(".project-desc").textContent;
+      modalTags.innerHTML = card.querySelector(".project-tags").innerHTML;
+      modalLink.href = card.dataset.github;
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".project-card").forEach((card) => {
+      card.addEventListener("click", () => openModal(card));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(card); }
+      });
+    });
+
+    document.getElementById("modal-close").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+  })();
+
+
+
+  </script>
+
+ <script>
+  // Achievements: two boxes + modals
+  (function () {
+    const stack = [];
+
+    function openEl(el) {
+      el.classList.remove("hidden");
+      el.classList.add("flex");
+      document.body.style.overflow = "hidden";
+      stack.push(el);
+    }
+
+    function closeEl(el) {
+      el.classList.add("hidden");
+      el.classList.remove("flex");
+      const i = stack.indexOf(el);
+      if (i > -1) stack.splice(i, 1);
+      if (!stack.length) document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".open-modal").forEach((box) => {
+      const open = () => openEl(document.getElementById(box.dataset.target));
+      box.addEventListener("click", open);
+      box.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+      });
+    });
+
+    document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+      overlay.addEventListener("click", (e) => { if (e.target === overlay) closeEl(overlay); });
+      overlay.querySelectorAll(".modal-close").forEach((btn) => btn.addEventListener("click", () => closeEl(overlay)));
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && stack.length) closeEl(stack[stack.length - 1]);
+    });
+  })();
+</script>
+
+<script>
+  // Experience modal
+  (function () {
+    const modal = document.getElementById("exp-modal");
+
+    function openModal(card) {
+      document.getElementById("exp-modal-date").textContent = card.querySelector("span").textContent;
+      document.getElementById("exp-modal-title").textContent = card.querySelector(".exp-title").textContent;
+      document.getElementById("exp-modal-org").textContent = card.querySelector(".exp-org").textContent;
+      document.getElementById("exp-modal-detail").innerHTML = card.querySelector(".exp-detail").innerHTML;
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".exp-card").forEach((card) => {
+      card.addEventListener("click", () => openModal(card));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(card); }
+      });
+    });
+
+    document.getElementById("exp-modal-close").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+    });
+  })();
+</script>
+
+<script>
+  // Animations
+  (function () {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+    /* Scroll progress bar + header shadow */
+    const bar = document.createElement("div");
+    bar.id = "scroll-progress";
+    document.body.appendChild(bar);
+    const header = $("header");
+    function onScroll() {
+      const h = document.documentElement;
+      const p = h.scrollTop / ((h.scrollHeight - h.clientHeight) || 1);
+      bar.style.transform = "scaleX(" + Math.min(1, Math.max(0, p)) + ")";
+      header.classList.toggle("scrolled", h.scrollTop > 10);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* Hero: floating blobs, staggered text, floating photo */
+    const home = $("#home");
+    ["blob blob-1", "blob blob-2"].forEach((c) => {
+      const d = document.createElement("div");
+      d.className = c;
+      home.prepend(d);
+    });
+
+    const heroLeft = $("#home .reveal");
+    if (heroLeft) {
+      heroLeft.classList.remove("reveal");
+      Array.from(heroLeft.children).forEach((c) => c.classList.add("reveal"));
+    }
+    const heroImg = $("#home .shrink-0");
+    if (heroImg) heroImg.classList.add("reveal-zoom");
+    const imgWrap = $("#home .shrink-0 > div");
+    if (imgWrap) {
+      imgWrap.classList.add("float-soft");
+      imgWrap.firstElementChild.classList.add("glow-pulse");
+    }
+
+    /* About: left/right slide, Contact: left/right slide */
+    const aboutCols = $$("#about > div > div");
+    if (aboutCols[0]) aboutCols[0].classList.add("reveal-left");
+    if (aboutCols[1]) aboutCols[1].classList.add("reveal-right");
+    const contactCols = $$("#contact > div > *");
+    if (contactCols[0]) contactCols[0].classList.add("reveal-left");
+    if (contactCols[1]) contactCols[1].classList.add("reveal-right");
+
+    /* Cards: zoom-in one by one */
+    $$("#projects .project-card, #experience .exp-card, #certifications .open-modal, #education article")
+      .forEach((el) => el.classList.add("reveal", "reveal-zoom"));
+
+
+    /* Skill bars + percentage count-up */
+    $$("#about div.h-2 > div").forEach((f, i) => {
+      f.classList.add("skill-fill");
+      f.style.setProperty("--d", 400 + i * 140 + "ms");
+    });
+    const pcts = $$("#about .justify-between > span:last-child");
+    pcts.forEach((el) => {
+      el.dataset.t = parseInt(el.textContent, 10);
+      if (!reduce) el.textContent = "0%";
+    });
+    function runCounts() {
+      if (reduce) return;
+      pcts.forEach((el, i) => {
+        const target = +el.dataset.t;
+        const start = performance.now() + 400 + i * 140;
+        const dur = 1400;
+        (function tick(now) {
+          const t = Math.min(1, Math.max(0, (now - start) / dur));
+          el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3))) + "%";
+          if (t < 1) requestAnimationFrame(tick);
+        })(performance.now());
+      });
+    }
+
+    /* Reveal observer: elements that appear together come in one after another */
+    if (reduce) {
+      $$(".reveal").forEach((el) => el.classList.add("visible"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.filter((e) => e.isIntersecting).forEach((entry, i) => {
+          const el = entry.target;
+          el.style.setProperty("--d", Math.min(i, 6) * 110 + "ms");
+          el.classList.add("visible");
+          if (el === aboutCols[1]) runCounts();
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px" }
+    );
+    $$(".reveal").forEach((el) => io.observe(el));
+  })();
+</script>
+</body>
+</html>
